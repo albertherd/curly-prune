@@ -1,7 +1,5 @@
-#include "Ws2tcpip.h"
 #include <errno.h>
-#include "server.h"
-#include "list.h"
+#include "msgprocessor.h"
 
 SOCKET listenerSocket;
 list *clients;
@@ -15,6 +13,11 @@ int initServer()
 	}
 
 	if (setupListenerSocket() == INVALID_SOCKET)
+	{
+		return 1;
+	}
+
+	if (!cmdsInit())
 	{
 		return 1;
 	}
@@ -123,17 +126,17 @@ int setUpFDSets(FD_SET *readSet, FD_SET *writeSet, FD_SET *exceptSet, SOCKET lis
 	while ((node = listNext(iter)) != NULL)
 	{
 		clientConnection = node->value;
-		if (clientConnection->bufferLength < CLIENTCONNECTION_BUFFER_SIZE)
+		if (clientConnection->client.recvBufferLength < CLIENTCONNECTION_BUFFER_SIZE)
 		{
-			FD_SET(clientConnection->client, readSet);
+			FD_SET(clientConnection->socket, readSet);
 		}
 
-		if (clientConnection->bufferLength > 0)
+		if (clientConnection->client.sendBufferLength > 0)
 		{
-			FD_SET(clientConnection->client, writeSet);
+			FD_SET(clientConnection->socket, writeSet);
 		}
 
-		FD_SET(clientConnection->client, exceptSet);
+		FD_SET(clientConnection->socket, exceptSet);
 	}
 	listReleaseIterator(iter);
 
@@ -152,16 +155,27 @@ int acceptConnection()
 
 		u_long nonBlockFlag = 1;
 		ioctlsocket(incomingSocket, FIONBIO, &nonBlockFlag);
-
-		ClientConnection *clientConnection = malloc(sizeof(ClientConnection));
-		clientConnection->client = incomingSocket;
-		clientConnection->bufferLength = 0;
+		ClientConnection *clientConnection = initClientConnection(incomingSocket);
 		listAddNodeHead(clients, clientConnection);
 	}
 	else
 	{
 		return WSAGetLastError();
 	}
+}
+
+ClientConnection *initClientConnection(SOCKET incomingSocket)
+{
+	ClientConnection *clientConnection = malloc(sizeof(ClientConnection));
+	clientConnection->socket = incomingSocket;
+	clientConnection->client.recvBufferLength = 0;
+	clientConnection->client.sendBufferLength = 0;
+	clientConnection->client.state = CLIENT_INIT;
+}
+
+void releseClientConnection(ClientConnection *clientConnection)
+{
+	free(clientConnection);
 }
 
 int processSockets(FD_SET *readSet, FD_SET *writeSet, FD_SET *exceptSet)
@@ -173,7 +187,7 @@ int processSockets(FD_SET *readSet, FD_SET *writeSet, FD_SET *exceptSet)
 	{
 		int result = 0;
 		ClientConnection *clientConnection = node->value;
-		SOCKET clientSocket = clientConnection->client;
+		SOCKET clientSocket = clientConnection->socket;
 		if (FD_ISSET(clientSocket, exceptSet))
 		{
 			printf("Error in socket");
@@ -210,7 +224,7 @@ int processSockets(FD_SET *readSet, FD_SET *writeSet, FD_SET *exceptSet)
 int readFromClient(listNode *node)
 {
 	ClientConnection *clientConnection = node->value;
-	int receivedBytes = recv(clientConnection->client, clientConnection->buffer + clientConnection->bufferLength, CLIENTCONNECTION_BUFFER_SIZE - clientConnection->bufferLength, 0);
+	int receivedBytes = recv(clientConnection->socket, clientConnection->client.recvBuffer + clientConnection->client.recvBufferLength, CLIENTCONNECTION_BUFFER_SIZE - clientConnection->client.recvBufferLength, 0);
 
 	if (receivedBytes == 0)
 	{
@@ -218,29 +232,37 @@ int readFromClient(listNode *node)
 	}
 	else if (receivedBytes == SOCKET_ERROR)
 	{
-		return handleSocketErr(clientConnection->client) == WSAEWOULDBLOCK ? SERVER_CONNECTION_OK : SERVER_CONNECTION_ERR;
+		return handleSocketErr(clientConnection->socket) == WSAEWOULDBLOCK ? SERVER_CONNECTION_OK : SERVER_CONNECTION_ERR;
 	}
 
-	clientConnection->bufferLength += receivedBytes;
+	clientConnection->client.recvBufferLength += receivedBytes;
+
+	if (msgpProcessClient(&clientConnection->client) == MESSAGE_PROCESSED_SUCCESSFULLY)
+	{
+		clientConnection->client.recvBufferLength = 0;
+		memset(clientConnection->client.recvBuffer, 0, CLIENTCONNECTION_BUFFER_SIZE);
+	}
+
 	return SERVER_CONNECTION_OK;
 }
 
 int writeToClient(ClientConnection *clientConnection)
 {
-	int writtenBytes = send(clientConnection->client, clientConnection->buffer, clientConnection->bufferLength, 0);
+	int writtenBytes = send(clientConnection->socket, clientConnection->client.sendBuffer, clientConnection->client.sendBufferLength, 0);
 	if (writtenBytes == SOCKET_ERROR)
 	{
-		return handleSocketErr(clientConnection->client) == WSAEWOULDBLOCK ? SERVER_CONNECTION_OK : SERVER_CONNECTION_ERR;
+		return handleSocketErr(clientConnection->socket) == WSAEWOULDBLOCK ? SERVER_CONNECTION_OK : SERVER_CONNECTION_ERR;
 	}
 
-	if (writtenBytes == clientConnection->bufferLength)
+	if (writtenBytes == clientConnection->client.sendBufferLength)
 	{
-		clientConnection->bufferLength = 0;
+		clientConnection->client.sendBufferLength = 0;
+		memset(clientConnection->client.sendBuffer, 0, CLIENTCONNECTION_BUFFER_SIZE);
 	}
 	else
 	{
-		clientConnection->bufferLength -= writtenBytes;
-		memmove(clientConnection->buffer, clientConnection->buffer + writtenBytes, clientConnection->bufferLength);
+		clientConnection->client.sendBufferLength -= writtenBytes;
+		memmove(clientConnection->client.sendBuffer, clientConnection->client.sendBuffer + writtenBytes, clientConnection->client.sendBufferLength);
 	}
 
 	return SERVER_CONNECTION_OK;
