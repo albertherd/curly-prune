@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="clientevents.h" />
     <ClInclude Include="commands.h" />
     <ClInclude Include="strings.h" />
     <ClInclude Include="list.h" />
@@ -21,6 +22,7 @@
     <ClInclude Include="stringhelper.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="clientevents.c" />
     <ClCompile Include="commands.c" />
     <ClCompile Include="list.c" />
     <ClCompile Include="main.c" />

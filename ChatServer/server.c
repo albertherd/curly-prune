@@ -1,5 +1,6 @@
 #include <errno.h>
 #include "msgprocessor.h"
+#include "clientevents.h"
 
 SOCKET listenerSocket;
 list *clients;
@@ -157,6 +158,7 @@ int acceptConnection()
 		ioctlsocket(incomingSocket, FIONBIO, &nonBlockFlag);
 		ClientConnection *clientConnection = initClientConnection(incomingSocket);
 		listAddNodeHead(clients, clientConnection);
+		clientEventsAfterAccept(clientConnection);
 	}
 	else
 	{
@@ -167,9 +169,8 @@ int acceptConnection()
 ClientConnection *initClientConnection(SOCKET incomingSocket)
 {
 	ClientConnection *clientConnection = malloc(sizeof(ClientConnection));
+	memset(&clientConnection->client, 0, sizeof(clientConnection->client));
 	clientConnection->socket = incomingSocket;
-	clientConnection->client.recvBufferLength = 0;
-	clientConnection->client.sendBufferLength = 0;
 	clientConnection->client.state = CLIENT_INIT;
 }
 
@@ -197,7 +198,7 @@ int processSockets(FD_SET *readSet, FD_SET *writeSet, FD_SET *exceptSet)
 		else if (FD_ISSET(clientSocket, readSet))
 		{
 			printf("Reading From Socket!\n");
-			result = readFromClient(node);
+			result = readFromClient(clientConnection);
 			FD_CLR(clientSocket, readSet);
 		}
 		else if (FD_ISSET(clientSocket, writeSet))
@@ -221,9 +222,9 @@ int processSockets(FD_SET *readSet, FD_SET *writeSet, FD_SET *exceptSet)
 	listReleaseIterator(iter);
 }
 
-int readFromClient(listNode *node)
+int readFromClient(ClientConnection *clientConnection)
 {
-	ClientConnection *clientConnection = node->value;
+	clientEventsBeforeRead(clientConnection);
 	int receivedBytes = recv(clientConnection->socket, clientConnection->client.recvBuffer + clientConnection->client.recvBufferLength, CLIENTCONNECTION_BUFFER_SIZE - clientConnection->client.recvBufferLength, 0);
 
 	if (receivedBytes == 0)
@@ -243,11 +244,13 @@ int readFromClient(listNode *node)
 		memset(clientConnection->client.recvBuffer, 0, CLIENTCONNECTION_BUFFER_SIZE);
 	}
 
+	clientEventsAfterRead(clientConnection);
 	return SERVER_CONNECTION_OK;
 }
 
 int writeToClient(ClientConnection *clientConnection)
 {
+	clientEventsBeforeSend(clientConnection);
 	int writtenBytes = send(clientConnection->socket, clientConnection->client.sendBuffer, clientConnection->client.sendBufferLength, 0);
 	if (writtenBytes == SOCKET_ERROR)
 	{
@@ -264,7 +267,8 @@ int writeToClient(ClientConnection *clientConnection)
 		clientConnection->client.sendBufferLength -= writtenBytes;
 		memmove(clientConnection->client.sendBuffer, clientConnection->client.sendBuffer + writtenBytes, clientConnection->client.sendBufferLength);
 	}
-
+	
+	clientEventsAfterSend(clientConnection);
 	return SERVER_CONNECTION_OK;
 }
 

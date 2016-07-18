@@ -48,6 +48,9 @@
     <ClInclude Include="strings.h">
       <Filter>Header Files\Constants</Filter>
     </ClInclude>
+    <ClInclude Include="clientevents.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -69,6 +72,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="room.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="clientevents.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

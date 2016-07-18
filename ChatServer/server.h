@@ -1,3 +1,5 @@
+#pragma once
+
 #include "list.h"
 #include "Ws2tcpip.h"
 
@@ -21,33 +23,37 @@ typedef enum ClientState{
 	CLIENT_WRTIEABLE
 } ClientState;
 
-typedef struct Client{
+typedef struct Event Event;
+typedef struct ClientEvents ClientEvents;
+typedef struct Client Client;
+typedef struct ClientConnection ClientConnection;
+
+struct Event{
+	void(*eventFunc)(ClientConnection *clientConnection);
+};
+
+struct ClientEvents{
+	Event afterAccept;
+	Event beforeSend;
+	Event afterSend;
+	Event beforeRead;
+	Event afterRead;
+};
+
+struct Client{
 	short recvBufferLength;
 	short sendBufferLength;
 	ClientState state;
 	char name[CLIENT_NAME_SIZE];
 	char recvBuffer[CLIENTCONNECTION_BUFFER_SIZE];
 	char sendBuffer[CLIENTCONNECTION_BUFFER_SIZE];
-} Client;
-
-typedef struct ClientEvents{
-	Event beforeAccept;
-	Event afterAccept;
-	Event beforeSend;
-	Event afterSend;
-	Event beforeRead;
-	Event afteRead;
-} ClientEvents;
-
-typedef struct Event{
-	void(*eventFunc)(ClientConnection *clientConnection);
-} Event;
-
-typedef struct ClientConnection {
-	SOCKET socket;
-	Client client;
 	ClientEvents clientEvents;
-} ClientConnection;
+};
+
+struct ClientConnection {
+	SOCKET socket;
+	Client client;	
+};
 
 
 int initServer();
