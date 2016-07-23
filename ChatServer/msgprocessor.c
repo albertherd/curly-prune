@@ -40,29 +40,29 @@ int msgpProcessClient(Client *client)
 
 void processInitClient(Client *client)
 {
-	client->clientEvents.afterRead.eventFunc = triggerConvertEolToString;
 	strcpy_s(client->sendBuffer, sizeof(motd), motd);
 	client->sendBufferLength = sizeof(motd);
 	client->state = CLIENT_AWAITING_NAME;
+
+	client->clientEvents.onClientEventsSocketRecv.eventFunc = triggerConvertEolToString;
 }
 
 void processAwaitingName(Client *client)
 {
 	if (client->recvBufferLength > CLIENT_NAME_SIZE)
 	{
-		setBuffer(client->sendBuffer, &client->sendBufferLength, errorNameTooLong, sizeof(errorNameTooLong));
+		msgWriterWriteMsg(client, errorNameTooLong);
 	}
 	else if (!strlen(client->recvBuffer))
 	{
-		setBuffer(client->sendBuffer, &client->sendBufferLength, errorNoName, sizeof(errorNoName));
+		msgWriterWriteMsg(client, errorNoName);
 	}
 	else
 	{
-		strcpy_s(client->sendBuffer, CLIENTCONNECTION_BUFFER_SIZE, welcomeNameBefore);
-		strcat_s(client->sendBuffer, CLIENTCONNECTION_BUFFER_SIZE, client->recvBuffer);
-		strcat_s(client->sendBuffer, CLIENTCONNECTION_BUFFER_SIZE, welcomeNameAfter);
-		strcat_s(client->sendBuffer, CLIENTCONNECTION_BUFFER_SIZE, instructions);
-		client->sendBufferLength = strlen(client->sendBuffer) + 1;
+		msgWriterWriteMsg(client, welcomeNameBefore);
+		msgWriterWriteMsg(client, client->recvBuffer);
+		msgWriterWriteMsg(client, welcomeNameAfter);
+		msgWriterWriteMsg(client, instructions);
 		client->state = CLIENT_COMMAND_MODE;
 	}
 }

@@ -5,6 +5,7 @@
 
 #include "commands.h"
 #include "server.h"
+#include "msgWriter.h"
 
 int msgpProcessClient(Client *client);
 void processCommand(Client *client);

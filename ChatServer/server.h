@@ -33,11 +33,7 @@ struct Event{
 };
 
 struct ClientEvents{
-	Event afterAccept;
-	Event beforeSend;
-	Event afterSend;
-	Event beforeRead;
-	Event afterRead;
+	Event onClientEventsSocketRecv;
 };
 
 struct Client{

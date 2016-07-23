@@ -1,10 +1,13 @@
-﻿Build started 14/07/2016 23:26:55.
+﻿Build started 23/07/2016 15:07:02.
      1>Project "C:\Users\Albert\documents\visual studio 2013\Projects\ChatServer\ChatServer\ChatServer.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt msgprocessor.c
          msgprocessor.c
-     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\msgprocessor.c(53): warning C4133: 'function' : incompatible types - from 'short *' to 'int *'
-     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\msgprocessor.c(57): warning C4133: 'function' : incompatible types - from 'short *' to 'int *'
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\msgprocessor.c(54): warning C4090: 'function' : different 'const' qualifiers
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\msgprocessor.c(58): warning C4090: 'function' : different 'const' qualifiers
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\msgprocessor.c(62): warning C4090: 'function' : different 'const' qualifiers
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\msgprocessor.c(64): warning C4090: 'function' : different 'const' qualifiers
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\msgprocessor.c(65): warning C4090: 'function' : different 'const' qualifiers
      1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\msgprocessor.c(73): warning C4013: 'upperString' undefined; assuming extern returning int
      1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\msgprocessor.c(94): warning C4028: formal parameter 2 different from declaration
      1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\msgprocessor.c(101): warning C4047: 'function' : 'char *' differs in levels of indirection from 'char (*)[10240]'
@@ -16,6 +19,7 @@
          Debug\list.obj
          Debug\main.obj
          Debug\msgprocessor.obj
+         Debug\msgWriter.obj
          Debug\room.obj
          Debug\server.obj
          Debug\stringhelper.obj
@@ -24,4 +28,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.44
+Time Elapsed 00:00:00.45

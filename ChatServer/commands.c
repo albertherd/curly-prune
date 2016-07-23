@@ -23,7 +23,7 @@ void setCommand(Command *command, char *commandText, void(*cmdFunc)(char *params
 
 Command* cmdsGetCommands()
 {
-	return commandList[0];
+	return commandList;
 }
 
 void cmdsExitFunc(char *params)
@@ -33,7 +33,7 @@ void cmdsExitFunc(char *params)
 
 void cmdsCreateFunc(char *params)
 {
-	
+	printf("Create invoked!");
 }
 
 void cmdsReleseCommands()

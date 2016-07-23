@@ -158,7 +158,6 @@ int acceptConnection()
 		ioctlsocket(incomingSocket, FIONBIO, &nonBlockFlag);
 		ClientConnection *clientConnection = initClientConnection(incomingSocket);
 		listAddNodeHead(clients, clientConnection);
-		clientEventsAfterAccept(clientConnection);
 	}
 	else
 	{
@@ -224,8 +223,9 @@ int processSockets(FD_SET *readSet, FD_SET *writeSet, FD_SET *exceptSet)
 
 int readFromClient(ClientConnection *clientConnection)
 {
-	clientEventsBeforeRead(clientConnection);
 	int receivedBytes = recv(clientConnection->socket, clientConnection->client.recvBuffer + clientConnection->client.recvBufferLength, CLIENTCONNECTION_BUFFER_SIZE - clientConnection->client.recvBufferLength, 0);
+	clientConnection->client.recvBufferLength += receivedBytes;
+	onClientEventsSocketRecv(clientConnection);
 
 	if (receivedBytes == 0)
 	{
@@ -236,21 +236,17 @@ int readFromClient(ClientConnection *clientConnection)
 		return handleSocketErr(clientConnection->socket) == WSAEWOULDBLOCK ? SERVER_CONNECTION_OK : SERVER_CONNECTION_ERR;
 	}
 
-	clientConnection->client.recvBufferLength += receivedBytes;
-
 	if (msgpProcessClient(&clientConnection->client) == MESSAGE_PROCESSED_SUCCESSFULLY)
 	{
 		clientConnection->client.recvBufferLength = 0;
 		memset(clientConnection->client.recvBuffer, 0, CLIENTCONNECTION_BUFFER_SIZE);
 	}
-
-	clientEventsAfterRead(clientConnection);
+	
 	return SERVER_CONNECTION_OK;
 }
 
 int writeToClient(ClientConnection *clientConnection)
 {
-	clientEventsBeforeSend(clientConnection);
 	int writtenBytes = send(clientConnection->socket, clientConnection->client.sendBuffer, clientConnection->client.sendBufferLength, 0);
 	if (writtenBytes == SOCKET_ERROR)
 	{
@@ -267,8 +263,7 @@ int writeToClient(ClientConnection *clientConnection)
 		clientConnection->client.sendBufferLength -= writtenBytes;
 		memmove(clientConnection->client.sendBuffer, clientConnection->client.sendBuffer + writtenBytes, clientConnection->client.sendBufferLength);
 	}
-	
-	clientEventsAfterSend(clientConnection);
+
 	return SERVER_CONNECTION_OK;
 }
 

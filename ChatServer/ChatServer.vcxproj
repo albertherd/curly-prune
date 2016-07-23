@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="clientevents.h" />
     <ClInclude Include="commands.h" />
+    <ClInclude Include="msgWriter.h" />
     <ClInclude Include="strings.h" />
     <ClInclude Include="list.h" />
     <ClInclude Include="main.h" />
@@ -27,6 +28,7 @@
     <ClCompile Include="list.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="msgprocessor.c" />
+    <ClCompile Include="msgWriter.c" />
     <ClCompile Include="room.c" />
     <ClCompile Include="server.c" />
     <ClCompile Include="stringhelper.c" />
