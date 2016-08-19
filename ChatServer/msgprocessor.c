@@ -1,8 +1,9 @@
-#include <stdlib.h>
+/*#include <stdlib.h>
 #include <stdio.h>
 #include "msgprocessor.h"
 #include "stringhelper.h"
-#include "strings.h"
+#include "constants.h"
+#include "fsm.h"
 
 int msgpProcessClient(Client *client)
 {
@@ -13,12 +14,12 @@ int msgpProcessClient(Client *client)
 
 	switch (client->state)
 	{
-		case CLIENT_INIT:
+		case STATE_INIT:
 		{
 			processInitClient(client);
 			break;
 		}
-		case CLIENT_AWAITING_NAME:
+		case T_AWAITING_NAME:
 		{
 			processAwaitingName(client);
 			break;
@@ -116,3 +117,4 @@ void appendPromptSig(Client *client)
 		free(promptSig);
 	}
 }
+*/

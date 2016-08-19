@@ -1,6 +1,10 @@
 #include <errno.h>
+#include "server.h"
+#include "list.h"
+#include "Ws2tcpip.h"
 #include "msgprocessor.h"
-#include "clientevents.h"
+#include "Client.h"
+#include "clientConnection.h"
 
 SOCKET listenerSocket;
 list *clients;
@@ -165,18 +169,6 @@ int acceptConnection()
 	}
 }
 
-ClientConnection *initClientConnection(SOCKET incomingSocket)
-{
-	ClientConnection *clientConnection = malloc(sizeof(ClientConnection));
-	memset(&clientConnection->client, 0, sizeof(clientConnection->client));
-	clientConnection->socket = incomingSocket;
-	clientConnection->client.state = CLIENT_INIT;
-}
-
-void releseClientConnection(ClientConnection *clientConnection)
-{
-	free(clientConnection);
-}
 
 int processSockets(FD_SET *readSet, FD_SET *writeSet, FD_SET *exceptSet)
 {
@@ -225,7 +217,6 @@ int readFromClient(ClientConnection *clientConnection)
 {
 	int receivedBytes = recv(clientConnection->socket, clientConnection->client.recvBuffer + clientConnection->client.recvBufferLength, CLIENTCONNECTION_BUFFER_SIZE - clientConnection->client.recvBufferLength, 0);
 	clientConnection->client.recvBufferLength += receivedBytes;
-	onClientEventsSocketRecv(clientConnection);
 
 	if (receivedBytes == 0)
 	{
@@ -236,22 +227,25 @@ int readFromClient(ClientConnection *clientConnection)
 		return handleSocketErr(clientConnection->socket) == WSAEWOULDBLOCK ? SERVER_CONNECTION_OK : SERVER_CONNECTION_ERR;
 	}
 
-	if (msgpProcessClient(&clientConnection->client) == MESSAGE_PROCESSED_SUCCESSFULLY)
+	fsmProcessBeforeReadEvent(&clientConnection->client, &clientConnection->state);
+	if (fsmProcessMainEvent(&clientConnection->client, &clientConnection->state) == STATERESULT_OK)
 	{
 		clientConnection->client.recvBufferLength = 0;
 		memset(clientConnection->client.recvBuffer, 0, CLIENTCONNECTION_BUFFER_SIZE);
 	}
-	
+	fsmProcessAfterReadEvent(&clientConnection->client, &clientConnection->state);
 	return SERVER_CONNECTION_OK;
 }
 
 int writeToClient(ClientConnection *clientConnection)
 {
+	fsmProcessBeforeSendEvent(&clientConnection->client, &clientConnection->state);
 	int writtenBytes = send(clientConnection->socket, clientConnection->client.sendBuffer, clientConnection->client.sendBufferLength, 0);
 	if (writtenBytes == SOCKET_ERROR)
 	{
 		return handleSocketErr(clientConnection->socket) == WSAEWOULDBLOCK ? SERVER_CONNECTION_OK : SERVER_CONNECTION_ERR;
 	}
+	fsmProcessAfterSendEvent(&clientConnection->client, &clientConnection->state);
 
 	if (writtenBytes == clientConnection->client.sendBufferLength)
 	{

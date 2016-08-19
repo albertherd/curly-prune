@@ -22,66 +22,147 @@
     <Filter Include="Header Files\Constants">
       <UniqueIdentifier>{7d459a69-5a5e-4fc6-9980-4f3a104ee706}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\StateControllers">
+      <UniqueIdentifier>{b54ec181-772a-4b30-9827-ed33352f687f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\StateControllers">
+      <UniqueIdentifier>{9cc1f6f9-427b-44d7-92e1-c84c594f7218}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities">
+      <UniqueIdentifier>{34c91a44-d963-438b-b558-32903f08120a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities">
+      <UniqueIdentifier>{93c07dfd-c5cd-43ac-b9ef-3e1249f76217}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Constants">
+      <UniqueIdentifier>{c9f087f4-344f-4667-afcf-dd922c9fae1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\StateControllers\shared">
+      <UniqueIdentifier>{a89e804c-2815-4f9a-bbf5-c6aceec367d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\StateControllers\shared">
+      <UniqueIdentifier>{3ddafc31-ff62-486f-ad81-698bf48e9159}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\CommandProcessors">
+      <UniqueIdentifier>{bb2b475f-1c74-4437-8fa1-5345ed429cf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\CommandProcessors">
+      <UniqueIdentifier>{ced645cb-35a9-4dd0-a0bf-e960d8a8ea94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\libs">
+      <UniqueIdentifier>{13baff7f-f981-4eef-859b-b3eb6ae25dc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\libs">
+      <UniqueIdentifier>{dfbc6035-dbd4-4b39-a903-3653b0363ed6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="list.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="server.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="msgprocessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="stringhelper.h">
       <Filter>Header Files\Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="commands.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="initState.h">
+      <Filter>Header Files\StateControllers</Filter>
     </ClInclude>
-    <ClInclude Include="room.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Client.h">
+      <Filter>Header Files\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="strings.h">
+    <ClInclude Include="constants.h">
       <Filter>Header Files\Constants</Filter>
     </ClInclude>
-    <ClInclude Include="clientevents.h">
+    <ClInclude Include="fsm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="clientConnection.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="awaitingNameState.h">
+      <Filter>Header Files\StateControllers</Filter>
+    </ClInclude>
+    <ClInclude Include="commandModeState.h">
+      <Filter>Header Files\StateControllers</Filter>
+    </ClInclude>
+    <ClInclude Include="onAfterRead.h">
+      <Filter>Header Files\StateControllers\shared</Filter>
+    </ClInclude>
     <ClInclude Include="msgWriter.h">
+      <Filter>Header Files\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="msgprocessor.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rawCommandProcessor.h">
+      <Filter>Header Files\CommandProcessors</Filter>
+    </ClInclude>
+    <ClInclude Include="room.h">
+      <Filter>Header Files\CommandProcessors</Filter>
+    </ClInclude>
+    <ClInclude Include="list.h">
+      <Filter>Header Files\libs</Filter>
+    </ClInclude>
+    <ClInclude Include="sds.h">
+      <Filter>Header Files\libs</Filter>
+    </ClInclude>
+    <ClInclude Include="sdsalloc.h">
+      <Filter>Header Files\libs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="list.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="server.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="msgprocessor.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="stringhelper.c">
       <Filter>Source Files\Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="commands.c">
+    <ClCompile Include="initState.c">
+      <Filter>Source Files\StateControllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.c">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="fsm.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="room.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="clientConnection.c">
+      <Filter>Source Files\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="clientevents.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="awaitingNameState.c">
+      <Filter>Source Files\StateControllers</Filter>
+    </ClCompile>
+    <ClCompile Include="constants.c">
+      <Filter>Source Files\Constants</Filter>
+    </ClCompile>
+    <ClCompile Include="commandModeState.c">
+      <Filter>Source Files\StateControllers</Filter>
+    </ClCompile>
+    <ClCompile Include="onAfterRead.c">
+      <Filter>Source Files\StateControllers\shared</Filter>
     </ClCompile>
     <ClCompile Include="msgWriter.c">
+      <Filter>Source Files\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="msgprocessor.c">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rawCommandProcessor.c">
+      <Filter>Source Files\CommandProcessors</Filter>
+    </ClCompile>
+    <ClCompile Include="room.c">
+      <Filter>Source Files\CommandProcessors</Filter>
+    </ClCompile>
+    <ClCompile Include="list.c">
+      <Filter>Source Files\libs</Filter>
+    </ClCompile>
+    <ClCompile Include="sds.c">
+      <Filter>Source Files\libs</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

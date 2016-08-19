@@ -1,31 +1,56 @@
-﻿Build started 23/07/2016 15:07:02.
+﻿Build started 17/08/2016 22:55:28.
      1>Project "C:\Users\Albert\documents\visual studio 2013\Projects\ChatServer\ChatServer\ChatServer.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt msgprocessor.c
-         msgprocessor.c
-     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\msgprocessor.c(54): warning C4090: 'function' : different 'const' qualifiers
-     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\msgprocessor.c(58): warning C4090: 'function' : different 'const' qualifiers
-     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\msgprocessor.c(62): warning C4090: 'function' : different 'const' qualifiers
-     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\msgprocessor.c(64): warning C4090: 'function' : different 'const' qualifiers
-     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\msgprocessor.c(65): warning C4090: 'function' : different 'const' qualifiers
-     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\msgprocessor.c(73): warning C4013: 'upperString' undefined; assuming extern returning int
-     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\msgprocessor.c(94): warning C4028: formal parameter 2 different from declaration
-     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\msgprocessor.c(101): warning C4047: 'function' : 'char *' differs in levels of indirection from 'char (*)[10240]'
-     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\msgprocessor.c(101): warning C4024: 'convertEolToString' : different types for formal and actual parameter 1
-     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\msgprocessor.c(101): warning C4133: 'function' : incompatible types - from 'short *' to 'int *'
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Albert\documents\visual studio 2013\Projects\ChatServer\Debug\ChatServer.exe" /INCREMENTAL /NOLOGO wsock32.lib ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Albert\documents\visual studio 2013\Projects\ChatServer\Debug\ChatServer.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Albert\documents\visual studio 2013\Projects\ChatServer\Debug\ChatServer.lib" /MACHINE:X86 Debug\clientevents.obj
-         Debug\commands.obj
-         Debug\list.obj
-         Debug\main.obj
-         Debug\msgprocessor.obj
-         Debug\msgWriter.obj
-         Debug\room.obj
-         Debug\server.obj
-         Debug\stringhelper.obj
-         ChatServer.vcxproj -> C:\Users\Albert\documents\visual studio 2013\Projects\ChatServer\Debug\ChatServer.exe
-     1>Done Building Project "C:\Users\Albert\documents\visual studio 2013\Projects\ChatServer\ChatServer\ChatServer.vcxproj" (Build target(s)).
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt room.c sds.c
+         sds.c
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.h(88): error C2054: expected '(' to follow 'inline'
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.h(88): error C2085: 'sdslen' : not in formal parameter list
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.h(88): error C2143: syntax error : missing ';' before '{'
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.h(105): error C2054: expected '(' to follow 'inline'
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.h(105): error C2085: 'sdsavail' : not in formal parameter list
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.h(105): error C2143: syntax error : missing ';' before '{'
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.h(131): error C2054: expected '(' to follow 'inline'
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.h(131): error C2085: 'sdssetlen' : not in formal parameter list
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.h(131): error C2143: syntax error : missing ';' before '{'
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.h(155): error C2054: expected '(' to follow 'inline'
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.h(155): error C2085: 'sdsinclen' : not in formal parameter list
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.h(155): error C2143: syntax error : missing ';' before '{'
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.h(181): error C2054: expected '(' to follow 'inline'
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.h(181): error C2085: 'sdsalloc' : not in formal parameter list
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.h(181): error C2143: syntax error : missing ';' before '{'
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.h(198): error C2054: expected '(' to follow 'inline'
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.h(198): error C2085: 'sdssetalloc' : not in formal parameter list
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.h(198): error C2143: syntax error : missing ';' before '{'
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.c(41): error C2054: expected '(' to follow 'inline'
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.c(41): error C2085: 'sdsHdrSize' : not in formal parameter list
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.c(41): error C2143: syntax error : missing ';' before '{'
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.c(57): error C2054: expected '(' to follow 'inline'
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.c(57): error C2085: 'sdsReqType' : not in formal parameter list
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.c(57): error C2143: syntax error : missing ';' before '{'
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.c(84): warning C4013: 'sdsReqType' undefined; assuming extern returning int
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.c(88): warning C4013: 'sdsHdrSize' undefined; assuming extern returning int
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.c(151): warning C4013: 'sdslen' undefined; assuming extern returning int
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.c(176): warning C4013: 'sdssetlen' undefined; assuming extern returning int
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.c(196): warning C4013: 'sdsavail' undefined; assuming extern returning int
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.c(236): warning C4013: 'sdssetalloc' undefined; assuming extern returning int
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.c(281): warning C4013: 'sdsalloc' undefined; assuming extern returning int
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.c(347): warning C4244: '=' : conversion from 'uint64_t' to 'size_t', possible loss of data
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.c(408): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.c(611): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.c(615): warning C4013: 'sdsinclen' undefined; assuming extern returning int
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.c(627): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\sds.c(644): warning C4018: '<' : signed/unsigned mismatch
+         room.c
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\room.c(11): warning C4047: 'function' : 'char *' differs in levels of indirection from 'char **'
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\room.c(11): warning C4024: 'upperString' : different types for formal and actual parameter 1
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\room.c(12): warning C4047: 'function' : 'const char *' differs in levels of indirection from 'char **'
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\room.c(12): warning C4024: 'strcmp' : different types for formal and actual parameter 1
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\room.c(14): warning C4013: 'cmdsRoomCreateRoom' undefined; assuming extern returning int
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\room.c(15): error C2143: syntax error : missing ';' before '}'
+     1>c:\users\albert\documents\visual studio 2013\projects\chatserver\chatserver\room.c(20): fatal error C1004: unexpected end-of-file found
+         Generating Code...
+     1>Done Building Project "C:\Users\Albert\documents\visual studio 2013\Projects\ChatServer\ChatServer\ChatServer.vcxproj" (Build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:00.45
+Time Elapsed 00:00:00.75
