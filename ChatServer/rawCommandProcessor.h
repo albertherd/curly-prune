@@ -5,6 +5,12 @@ typedef struct Command {
 	void(*cmdFunc)(char *params);
 } Command;
 
+typedef struct CommandParams{
+	char *cmdName;
+	char *cmdAction;
+	char *cmdParams;
+} CommandParams;
+
 typedef void CommandFunc(char *params);
 
 int cmdsInit();
